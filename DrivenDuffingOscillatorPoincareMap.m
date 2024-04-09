@@ -1,7 +1,10 @@
-%% Driven Duffing Oscillator
+%% *Driven Duffing Oscillator* 
 % Author:  Tyler Jones
 % Contact: tjjones6@wisc.edu
-% Date:    04.05.2024
+% Date:    04.09.2024
+% 
+% <<PoincareMapOmega2Pi.PNG>>
+% 
 
 %{
 This MATLAB script models the behavior of a driven Duffing oscillator, a 
@@ -11,7 +14,7 @@ generates a Poincaré section plot, illustrating the oscillator's phase space
 dynamics. 
 
 See the following for more info: 
-https://en.wikipedia.org/wiki/Duffing_equation
+<https://en.wikipedia.org/wiki/Duffing_equation> 
 Steven H. Strogatz: Nonlinear Dynamics and Chaos
 %}
 
@@ -77,9 +80,9 @@ UU = x_dot(XX,YY);
 %{
 This section initializes a figure for visualization and sets up parameters 
 for the simulation, including defining the Duffing equation using anonymous
- functions and configuring video writing settings. It iterates through 
+functions and configuring video writing settings. It iterates through 
 increasing values of the phase angle `phi`, and plotting the resulting 
-Poincaré section, with points
+Poincaré section.
 
 System Definition:
 \dot{x} = v
