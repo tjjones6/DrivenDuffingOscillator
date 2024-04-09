@@ -1,0 +1,419 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>DrivenDuffingOscillatorPoincareMap</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-04-09"><meta name="DC.source" content="DrivenDuffingOscillatorPoincareMap.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Driven Duffing Oscillator</a></li><li><a href="#2">Parameter Library and User Input</a></li><li><a href="#3">Vector Field Generation</a></li><li><a href="#4">Simulation and Visualization Loop</a></li><li><a href="#5">Plotting Reference Functions</a></li></ul></div><h2 id="1">Driven Duffing Oscillator</h2><p>Author:  Tyler Jones Contact: <a href="mailto:tjjones6@wisc.edu">tjjones6@wisc.edu</a> Date:    04.05.2024</p><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">This MATLAB script models the behavior of a driven Duffing oscillator, a
+</span><span class="comment">nonlinear dynamical system common in engineering and physics. By numerically
+</span><span class="comment">solving the Driven Duffing Equation using MATLAB's ode45 solver, it
+</span><span class="comment">generates a Poincar&eacute; section plot, illustrating the oscillator's phase space
+</span><span class="comment">dynamics.
+</span><span class="comment">
+</span><span class="comment">See the following for more info:
+</span><span class="comment">https://en.wikipedia.org/wiki/Duffing_equation
+</span><span class="comment">Steven H. Strogatz: Nonlinear Dynamics and Chaos
+</span><span class="comment">%}
+</span>
+clear <span class="string">all</span>; close <span class="string">all</span>; clc;
+</pre><h2 id="2">Parameter Library and User Input</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Driven Duffing Oscillator Equation:
+</span><span class="comment">$\ddot{x} + \delta\dot{x} + \alpha x + \beta x^{3}=\gamma \cos(\omega t)$
+</span><span class="comment">
+</span><span class="comment">alpha: Coefficient of linear damping
+</span><span class="comment">beta:  Coefficient of cubic damping
+</span><span class="comment">gamma: Amplitude of external driving force
+</span><span class="comment">omega: Angular frequency of external driving force
+</span><span class="comment">delta: Coefficient of velocity damping
+</span><span class="comment">%}
+</span>
+<span class="comment">% alpha = -1;</span>
+<span class="comment">% beta = 1;</span>
+<span class="comment">% gamma = 0.6;</span>
+<span class="comment">% omega = 1.5;</span>
+<span class="comment">% delta = 0.3;</span>
+
+alpha = -1;
+beta = 0.25;
+gamma = 2.5;
+omega = 2;
+delta = 0.1;
+
+<span class="comment">% Period Definition</span>
+<span class="comment">% NOTE: For t_period, "1000*T" controls the density of Poincar&eacute; Map</span>
+T = 2*pi/omega; <span class="comment">% Period of solution</span>
+t_period = (0:T:10000*T)'; <span class="comment">% Periodic time vector</span>
+
+<span class="comment">% Initial Condition (x,x_dot,phi)</span>
+y0 = [1; 0; 0]; <span class="comment">% Initial data/condition: (x=1, x_dot=0, phi=0)</span>
+
+<span class="comment">% Axis Controls</span>
+b = 6;
+axis_controls = [-b b];
+bound = b;
+</pre><h2 id="3">Vector Field Generation</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">This section computes the vector field for the driven Duffing oscillator,
+</span><span class="comment">defining functions for the first-order differential equations of position
+</span><span class="comment">and velocity. It then generates a grid of x and y values and evaluates the
+</span><span class="comment">velocity components.
+</span><span class="comment">%}
+</span>
+<span class="comment">% First order system</span>
+x_dot = @(x,y) y;
+v_dot = @(x,y,t) gamma*cos(omega*t) - delta*y - alpha*x - beta*x.^3;
+
+<span class="comment">% Generate grid and mesh for velocity vectors.</span>
+<span class="comment">% NOTE: VV is defined and updated in the loop since it is time-dependent</span>
+xx = linspace(-bound,bound,30);
+yy = linspace(-bound,bound,30);
+[XX,YY] = meshgrid(xx,yy);
+UU = x_dot(XX,YY);
+</pre><h2 id="4">Simulation and Visualization Loop</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">This section initializes a figure for visualization and sets up parameters
+</span><span class="comment">for the simulation, including defining the Duffing equation using anonymous
+</span><span class="comment"> functions and configuring video writing settings. It iterates through
+</span><span class="comment">increasing values of the phase angle `phi`, and plotting the resulting
+</span><span class="comment">Poincar&eacute; section, with points
+</span><span class="comment">
+</span><span class="comment">System Definition:
+</span><span class="comment">\dot{x} = v
+</span><span class="comment">\dot{v} = \gamma\cos(\omega) - \delta\dot{x} - \alpha x - \beta x^3
+</span><span class="comment">\dot{\phi} = \omega
+</span><span class="comment">%}
+</span>
+figure(<span class="string">'units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,[0.1 0.1 .8 .8])
+
+<span class="comment">% Solve Duffing Equation via ODE45</span>
+Duff_Eq = @(t, Y) [Y(2); gamma*cos(Y(3)) - delta*Y(2) - alpha*Y(1) - beta*Y(1).^3; omega];
+
+<span class="comment">% myWriter = VideoWriter('DuffingEquation3.mp4', 'MPEG-4');</span>
+<span class="comment">% myWriter.FrameRate = 60;</span>
+<span class="comment">% open(myWriter);</span>
+
+<span class="comment">% Iterate over increasing values of phi</span>
+angular_res = 100; <span class="comment">% Resolution for sweeping phi</span>
+phi_final = 6*pi;  <span class="comment">% Final angle</span>
+<span class="keyword">for</span> phi = linspace(0, phi_final, angular_res)
+    clf
+
+    <span class="comment">% Update the initial condition with the current phi</span>
+    y0(3) = phi;
+    VV = v_dot(XX,YY,phi*T);
+
+    <span class="comment">% ODE45 Solver</span>
+    [t, Y] = ode45(Duff_Eq, t_period, y0);
+
+    <span class="comment">% Assign intersection colors based on normalized x values</span>
+    x_values = Y(2:end,1);
+    x_max = max(abs(x_values));
+    normalized_x = x_values/x_max;
+    colors = zeros(length(x_values), 3);
+    colors(:, 1) = normalized_x;
+    colors(:, 3) = -normalized_x;
+
+    <span class="comment">% Plot the Poincar&eacute; section (x vs. x_dot)</span>
+    quiver(XX,YY,UU,VV,<span class="string">'Color'</span>,[0.7,0.7,0.7],<span class="string">'LineWidth'</span>,1.5);
+    hold <span class="string">on</span>
+    <span class="comment">%plot(Y(2:end,1), Y(2:end,2), 'MarkerSize', 5)</span>
+    scatter(Y(2:end,1), Y(2:end,2), 5, colors, <span class="string">'filled'</span>)
+    grid <span class="string">on</span>
+    fig_xytit(<span class="string">'$x$'</span>,<span class="string">'$\dot{x}$'</span>)
+    title([<span class="string">'Poincare Section: $\ddot{x} + \delta\dot{x} + \alpha x + \beta x^3 = \gamma \cos(\omega t)$, $\phi = \omega t = $ '</span>, num2str(phi)],<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>); <span class="comment">% Add iteration step of phi to title</span>
+    xlim(axis_controls)
+    ylim(axis_controls)
+    hold <span class="string">off</span>
+    pause(0.01)
+
+<span class="comment">%     frame = getframe(gcf);</span>
+<span class="comment">%     writeVideo(myWriter,frame);</span>
+<span class="keyword">end</span>
+<span class="comment">% close(myWriter)</span>
+</pre><img vspace="5" hspace="5" src="DrivenDuffingOscillatorPoincareMap_01.png" alt=""> <h2 id="5">Plotting Reference Functions</h2><pre class="codeinput"><span class="keyword">function</span> myfigpref
+<span class="comment">%   MYFIGPREF just makes figures pretty. Written by TGJChandler</span>
+<span class="comment">%</span>
+<span class="comment">%   Last edited: 01/01/2018 by TGJChandler</span>
+<span class="comment">%</span>
+<span class="comment">%   Comment by Tyler Jones: Thomas Chandler was my professor for math</span>
+<span class="comment">%   415 (Applied Dynamical Systems, Chaos, and Modeling) @UW-Madison</span>
+
+set(0, <span class="string">'DefaultAxesFontSize'</span>, 20)
+set(0, <span class="string">'DefaultAxesLineWidth'</span>, 2);
+set(0, <span class="string">'DefaultLineLineWidth'</span>, 2);
+set(0, <span class="string">'DefaultPatchLineWidth'</span>, .7);
+set(0, <span class="string">'DefaultLineMarkerSize'</span>, 6);
+
+grid <span class="string">on</span>;
+box <span class="string">on</span>;
+
+h = gca;
+h.TickLabelInterpreter=<span class="string">'latex'</span>;
+h.MinorGridAlpha=0.05;
+h.GridAlpha=0.05;
+h.FontSize=25;
+h.LineWidth=2;
+
+h = gcf;
+h.Color = [1,1,1];
+<span class="keyword">end</span>
+<span class="keyword">function</span> fig_xytit(xlab, ylab, tit)
+<span class="comment">% FIG_XYTIT sets the current figure's xlabel, ylabel, and title</span>
+<span class="comment">%   in latex format.</span>
+<span class="comment">%</span>
+<span class="comment">%   Last edited: 15/06/2021 by TGJChandler</span>
+
+<span class="keyword">if</span> nargin&lt;3
+    tit = <span class="string">''</span>;
+<span class="keyword">end</span>
+
+xlabel(xlab,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
+ylabel(ylab,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
+title(tit,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Driven Duffing Oscillator
+% Author:  Tyler Jones
+% Contact: tjjones6@wisc.edu
+% Date:    04.05.2024
+
+%{
+This MATLAB script models the behavior of a driven Duffing oscillator, a 
+nonlinear dynamical system common in engineering and physics. By numerically 
+solving the Driven Duffing Equation using MATLAB's ode45 solver, it 
+generates a Poincaré section plot, illustrating the oscillator's phase space 
+dynamics. 
+
+See the following for more info: 
+https://en.wikipedia.org/wiki/Duffing_equation
+Steven H. Strogatz: Nonlinear Dynamics and Chaos
+%}
+
+clear all; close all; clc;
+
+%% Parameter Library and User Input
+%{ 
+Driven Duffing Oscillator Equation:
+$\ddot{x} + \delta\dot{x} + \alpha x + \beta x^{3}=\gamma \cos(\omega t)$
+
+alpha: Coefficient of linear damping
+beta:  Coefficient of cubic damping
+gamma: Amplitude of external driving force
+omega: Angular frequency of external driving force
+delta: Coefficient of velocity damping
+%}
+
+% alpha = -1;
+% beta = 1;
+% gamma = 0.6;
+% omega = 1.5;
+% delta = 0.3;
+
+alpha = -1;
+beta = 0.25;
+gamma = 2.5;
+omega = 2;
+delta = 0.1;
+
+% Period Definition
+% NOTE: For t_period, "1000*T" controls the density of Poincaré Map
+T = 2*pi/omega; % Period of solution
+t_period = (0:T:10000*T)'; % Periodic time vector 
+
+% Initial Condition (x,x_dot,phi)
+y0 = [1; 0; 0]; % Initial data/condition: (x=1, x_dot=0, phi=0)
+
+% Axis Controls
+b = 6;
+axis_controls = [-b b];
+bound = b;
+
+%% Vector Field Generation
+%{
+This section computes the vector field for the driven Duffing oscillator, 
+defining functions for the first-order differential equations of position 
+and velocity. It then generates a grid of x and y values and evaluates the 
+velocity components.
+%}
+
+% First order system
+x_dot = @(x,y) y;
+v_dot = @(x,y,t) gamma*cos(omega*t) - delta*y - alpha*x - beta*x.^3;
+
+% Generate grid and mesh for velocity vectors.
+% NOTE: VV is defined and updated in the loop since it is time-dependent
+xx = linspace(-bound,bound,30);
+yy = linspace(-bound,bound,30);
+[XX,YY] = meshgrid(xx,yy);
+UU = x_dot(XX,YY);
+
+%% Simulation and Visualization Loop
+%{
+This section initializes a figure for visualization and sets up parameters 
+for the simulation, including defining the Duffing equation using anonymous
+ functions and configuring video writing settings. It iterates through 
+increasing values of the phase angle `phi`, and plotting the resulting 
+Poincaré section, with points
+
+System Definition:
+\dot{x} = v
+\dot{v} = \gamma\cos(\omega) - \delta\dot{x} - \alpha x - \beta x^3
+\dot{\phi} = \omega
+%}
+
+figure('units','normalized','Position',[0.1 0.1 .8 .8])
+
+% Solve Duffing Equation via ODE45
+Duff_Eq = @(t, Y) [Y(2); gamma*cos(Y(3)) - delta*Y(2) - alpha*Y(1) - beta*Y(1).^3; omega];
+
+% myWriter = VideoWriter('DuffingEquation3.mp4', 'MPEG-4');
+% myWriter.FrameRate = 60;
+% open(myWriter);
+
+% Iterate over increasing values of phi
+angular_res = 100; % Resolution for sweeping phi
+phi_final = 6*pi;  % Final angle
+for phi = linspace(0, phi_final, angular_res)
+    clf
+
+    % Update the initial condition with the current phi
+    y0(3) = phi;
+    VV = v_dot(XX,YY,phi*T);
+    
+    % ODE45 Solver
+    [t, Y] = ode45(Duff_Eq, t_period, y0);
+
+    % Assign intersection colors based on normalized x values
+    x_values = Y(2:end,1);
+    x_max = max(abs(x_values));
+    normalized_x = x_values/x_max;
+    colors = zeros(length(x_values), 3);
+    colors(:, 1) = normalized_x; 
+    colors(:, 3) = -normalized_x; 
+    
+    % Plot the Poincaré section (x vs. x_dot)
+    quiver(XX,YY,UU,VV,'Color',[0.7,0.7,0.7],'LineWidth',1.5);
+    hold on
+    %plot(Y(2:end,1), Y(2:end,2), 'MarkerSize', 5)
+    scatter(Y(2:end,1), Y(2:end,2), 5, colors, 'filled')
+    grid on
+    fig_xytit('$x$','$\dot{x}$')
+    title(['Poincare Section: $\ddot{x} + \delta\dot{x} + \alpha x + \beta x^3 = \gamma \cos(\omega t)$, $\phi = \omega t = $ ', num2str(phi)],'Interpreter','latex'); % Add iteration step of phi to title
+    xlim(axis_controls)
+    ylim(axis_controls)
+    hold off
+    pause(0.01)
+
+%     frame = getframe(gcf);
+%     writeVideo(myWriter,frame);
+end
+% close(myWriter)
+
+%% Plotting Reference Functions
+function myfigpref
+%   MYFIGPREF just makes figures pretty. Written by TGJChandler
+%
+%   Last edited: 01/01/2018 by TGJChandler
+%
+%   Comment by Tyler Jones: Thomas Chandler was my professor for math
+%   415 (Applied Dynamical Systems, Chaos, and Modeling) @UW-Madison
+
+set(0, 'DefaultAxesFontSize', 20)
+set(0, 'DefaultAxesLineWidth', 2);
+set(0, 'DefaultLineLineWidth', 2);
+set(0, 'DefaultPatchLineWidth', .7);
+set(0, 'DefaultLineMarkerSize', 6);
+
+grid on;
+box on;
+
+h = gca;
+h.TickLabelInterpreter='latex';
+h.MinorGridAlpha=0.05;
+h.GridAlpha=0.05;
+h.FontSize=25;
+h.LineWidth=2;
+
+h = gcf;
+h.Color = [1,1,1];
+end
+function fig_xytit(xlab, ylab, tit)
+% FIG_XYTIT sets the current figure's xlabel, ylabel, and title
+%   in latex format.
+%
+%   Last edited: 15/06/2021 by TGJChandler
+
+if nargin<3
+    tit = '';
+end
+
+xlabel(xlab,'interpreter','latex')
+ylabel(ylab,'interpreter','latex')
+title(tit,'interpreter','latex')
+end
+
+##### SOURCE END #####
+--></body></html>
