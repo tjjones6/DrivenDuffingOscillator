@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Driven Duffing Oscillator</a></li><li><a href="#2">Parameter Library and User Input</a></li><li><a href="#3">Vector Field Generation</a></li><li><a href="#4">Simulation and Visualization Loop</a></li><li><a href="#5">Plotting Reference Functions</a></li></ul></div><h2 id="1">Driven Duffing Oscillator</h2><p>Author:  Tyler Jones Contact: <a href="mailto:tjjones6@wisc.edu">tjjones6@wisc.edu</a> Date:    04.05.2024</p><pre class="codeinput"><span class="comment">%{
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Driven Duffing Oscillator</a></li><li><a href="#2">Parameter Library and User Input</a></li><li><a href="#3">Vector Field Generation</a></li><li><a href="#4">Simulation and Visualization Loop</a></li><li><a href="#5">Plotting Reference Functions</a></li></ul></div><h2 id="1">Driven Duffing Oscillator</h2><p>Author:  Tyler Jones Contact: <a href="mailto:tjjones6@wisc.edu">tjjones6@wisc.edu</a> Date:    04.09.2024</p><p><img vspace="5" hspace="5" src="PoincareMapOmega2Pi.PNG" alt=""> </p><pre class="codeinput"><span class="comment">%{
 </span><span class="comment">This MATLAB script models the behavior of a driven Duffing oscillator, a
 </span><span class="comment">nonlinear dynamical system common in engineering and physics. By numerically
 </span><span class="comment">solving the Driven Duffing Equation using MATLAB's ode45 solver, it
@@ -75,7 +75,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </span><span class="comment">dynamics.
 </span><span class="comment">
 </span><span class="comment">See the following for more info:
-</span><span class="comment">https://en.wikipedia.org/wiki/Duffing_equation
+</span><span class="comment">&lt;https://en.wikipedia.org/wiki/Duffing_equation&gt;
 </span><span class="comment">Steven H. Strogatz: Nonlinear Dynamics and Chaos
 </span><span class="comment">%}
 </span>
@@ -135,9 +135,9 @@ UU = x_dot(XX,YY);
 </pre><h2 id="4">Simulation and Visualization Loop</h2><pre class="codeinput"><span class="comment">%{
 </span><span class="comment">This section initializes a figure for visualization and sets up parameters
 </span><span class="comment">for the simulation, including defining the Duffing equation using anonymous
-</span><span class="comment"> functions and configuring video writing settings. It iterates through
+</span><span class="comment">functions and configuring video writing settings. It iterates through
 </span><span class="comment">increasing values of the phase angle `phi`, and plotting the resulting
-</span><span class="comment">Poincar&eacute; section, with points
+</span><span class="comment">Poincar&eacute; section.
 </span><span class="comment">
 </span><span class="comment">System Definition:
 </span><span class="comment">\dot{x} = v
@@ -238,7 +238,10 @@ title(tit,<span class="string">'interpreter'</span>,<span class="string">'latex'
 %% Driven Duffing Oscillator
 % Author:  Tyler Jones
 % Contact: tjjones6@wisc.edu
-% Date:    04.05.2024
+% Date:    04.09.2024
+% 
+% <<PoincareMapOmega2Pi.PNG>>
+% 
 
 %{
 This MATLAB script models the behavior of a driven Duffing oscillator, a 
@@ -248,7 +251,7 @@ generates a Poincaré section plot, illustrating the oscillator's phase space
 dynamics. 
 
 See the following for more info: 
-https://en.wikipedia.org/wiki/Duffing_equation
+<https://en.wikipedia.org/wiki/Duffing_equation> 
 Steven H. Strogatz: Nonlinear Dynamics and Chaos
 %}
 
@@ -314,9 +317,9 @@ UU = x_dot(XX,YY);
 %{
 This section initializes a figure for visualization and sets up parameters 
 for the simulation, including defining the Duffing equation using anonymous
- functions and configuring video writing settings. It iterates through 
+functions and configuring video writing settings. It iterates through 
 increasing values of the phase angle `phi`, and plotting the resulting 
-Poincaré section, with points
+Poincaré section.
 
 System Definition:
 \dot{x} = v
